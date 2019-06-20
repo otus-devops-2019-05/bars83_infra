@@ -6,5 +6,5 @@ ssh -A -t user@35.209.46.30 ssh someinternalhost
 cat ~/.ssh/config
 	Host someinternalhost
 	ProxyCommand ssh -A user@35.209.46.30 -W %h:%p
-astion_IP = 35.209.46.30
+bastion_IP = 35.209.46.30
 someinternalhost_IP = 10.128.0.5
