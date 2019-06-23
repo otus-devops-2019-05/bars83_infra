@@ -8,3 +8,6 @@ cat ~/.ssh/config
 	ProxyCommand ssh -A user@35.209.46.30 -W %h:%p
 bastion_IP = 35.209.46.30
 someinternalhost_IP = 10.128.0.5
+
+testapp_IP = 35.222.171.118
+testapp_port = 9292
