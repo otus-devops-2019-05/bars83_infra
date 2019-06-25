@@ -72,7 +72,7 @@ gcloud compute firewall-rules create default-puma-server \
     --target-tags=puma-server
 ```
 ### Test app (reddit-app) endpoint for CI
-testapp_IP = 34.68.5.28
+testapp_IP = 34.68.146.214
 
 testapp_port = 9292
 
