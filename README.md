@@ -96,6 +96,8 @@ $ puma -d
 
 Summary: we have a "fry" image with manual application deploy
 
-### Addvanced tasks:
+### Advanced tasks:
 1) Created template `immutable.json` for "baked" image with reddit-app
 2) Added script `create-redditvm.sh` for VM creation based on "baked" image
+
+Summary: we have a "baked" image with already deploed application
