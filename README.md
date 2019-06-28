@@ -76,3 +76,28 @@ testapp_IP = 34.68.146.214
 
 testapp_port = 9292
 
+## Homework - Building images with Packer
+
+### Base tasks:
+1) Installed Packer  
+2) Application Default Credentials (ADC) created
+    - `gcloud auth application-default login`
+3) Added template for image (`ubuntu16.json`)
+4) Template validated with `packer validate ./ubuntu16.json`
+5) VM created from GCP web console
+6) Application reddit-app deployed by script:
+```
+#! /bin/bash
+git clone -b monolith https://github.com/express42/reddit.git
+$ cd reddit && bundle install
+$ puma -d 
+```
+7) Some template parameters were moved to variables
+
+Summary: we have a "fry" image with manual application deploy
+
+### Advanced tasks:
+1) Created template `immutable.json` for "baked" image with reddit-app
+2) Added script `create-redditvm.sh` for VM creation based on "baked" image
+
+Summary: we have a "baked" image with already deploed application

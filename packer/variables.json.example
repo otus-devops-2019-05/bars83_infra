@@ -1,0 +1,6 @@
+{
+  "project_id": "your-project-id",
+  "source_image_family": "ubuntu-1604-lts",
+  "tags": "your-tags",
+  "disk_size": "10"
+}
