@@ -101,3 +101,27 @@ Summary: we have a "fry" image with manual application deploy
 2) Added script `create-redditvm.sh` for VM creation based on "baked" image
 
 Summary: we have a "baked" image with already deploed application
+
+
+## Homework - IaC with Terraform
+1) Remove project wide SSH keys from GCP
+2) Install [terraform 0.11.11](https://releases.hashicorp.com/terraform/0.11.11/terraform_0.11.11_linux_amd64.zip)
+```
+> terraform -v                                                              
+Terraform v0.11.11
+```
+3) Plan IaC (instance, provisioning, fw rule) in ``main.tf``, ``variables.tf``, ``terraform.tfvars``
+4) Add files for provisioning in ``files/``
+5) Output variables described in ``outputs.tf``
+6) SSH keys for several users
+```
+resource "google_compute_project_metadata" "default" {
+  metadata = {
+    # путь до публичного ключа
+    ssh-keys = "appuser1:${file(var.project_public_key_path)}appuser2:${file(var.project_public_key_path)}"
+  }
+}
+```
+7) Added ``lb.tf`` with code for load balancing
+8) ``main.tf``, ``variables.tf``, ``outputs.tf`` modified for several app instances (``count = n``)
+
