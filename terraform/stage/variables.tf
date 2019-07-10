@@ -33,10 +33,6 @@ variable zone {
   default     = "us-central1-c"
 }
 
-variable name {
-  description = "Name for the forwarding rule and prefix for supporting resources"
-}
-
 variable count {
   description = "Count of reddit-app instances"
   default     = 1
