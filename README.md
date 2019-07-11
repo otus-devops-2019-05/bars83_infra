@@ -1,23 +1,71 @@
 # bars83_infra
 
-## Homework - GCP cloud intro
-1) Remote internal server SSH in one command:
-```ssh -A -t user@35.209.46.30 ssh someinternalhost```
+## Homework #7 - IaC with Terraform #2
+1) Remove load balancer confiruration from previous homework
+2) Import firewall rule from GCP to terraform state
+3) Test resource dependencies
+4) Split config to have two instances - one for application and one for database
+5) Split main.tf to separate config files - app.tf, db.tf, vpc.tf
+6) Use terraform modules in single and multi environments
+7) Use [storage-bucket](https://registry.terraform.io/modules/SweetOps/storage-bucket/google) plugin from terraform registry to store states in remote buckets
+8) Add optional provisioning to app instance
+9) Because app and db is now on different instances, it needs to modify mongodb config (``bindIP``) on base image, and set environment variable DATABASE_URL on app instance
 
-2) Create alias for command ```ssh someinternalhost```
+
+## Homework #6 - IaC with Terraform
+1) Remove project wide SSH keys from GCP
+2) Install [terraform 0.11.11](https://releases.hashicorp.com/terraform/0.11.11/terraform_0.11.11_linux_amd64.zip)
 ```
-cat ~/.ssh/config
-	Host someinternalhost
-	ProxyCommand ssh -A user@35.209.46.30 -W %h:%p
+> terraform -v                                                              
+Terraform v0.11.11
 ```
+3) Plan IaC (instance, provisioning, fw rule) in ``main.tf``, ``variables.tf``, ``terraform.tfvars``
+4) Add files for provisioning in ``files/``
+5) Output variables described in ``outputs.tf``
+6) SSH keys for several users
+```
+resource "google_compute_project_metadata" "default" {
+  metadata = {
+    # путь до публичного ключа
+    ssh-keys = "appuser1:${file(var.project_public_key_path)}appuser2:${file(var.project_public_key_path)}"
+  }
+}
+```
+7) Added ``lb.tf`` with code for load balancing
+8) ``main.tf``, ``variables.tf``, ``outputs.tf`` modified for several app instances (``count = n``)
 
-### VPN config for CI
 
-bastion_IP = 35.209.46.30
 
-someinternalhost_IP = 10.128.0.5
 
-## Homework - test application deployment
+
+
+## Homework #5 - Building images with Packer
+
+### Base tasks:
+1) Installed Packer  
+2) Application Default Credentials (ADC) created
+    - `gcloud auth application-default login`
+3) Added template for image (`ubuntu16.json`)
+4) Template validated with `packer validate ./ubuntu16.json`
+5) VM created from GCP web console
+6) Application reddit-app deployed by script:
+```
+#! /bin/bash
+git clone -b monolith https://github.com/express42/reddit.git
+$ cd reddit && bundle install
+$ puma -d 
+```
+7) Some template parameters were moved to variables
+
+Summary: we have a "fry" image with manual application deploy
+
+### Advanced tasks:
+1) Created template `immutable.json` for "baked" image with reddit-app
+2) Added script `create-redditvm.sh` for VM creation based on "baked" image
+
+Summary: we have a "baked" image with already deploed application
+
+## Homework #4 - test application deployment
 1) Installed and initialized Cloud SDK 
 2) Created VM instance
 ```
@@ -76,52 +124,20 @@ testapp_IP = 34.68.146.214
 
 testapp_port = 9292
 
-## Homework - Building images with Packer
 
-### Base tasks:
-1) Installed Packer  
-2) Application Default Credentials (ADC) created
-    - `gcloud auth application-default login`
-3) Added template for image (`ubuntu16.json`)
-4) Template validated with `packer validate ./ubuntu16.json`
-5) VM created from GCP web console
-6) Application reddit-app deployed by script:
+## Homework #3 - GCP cloud intro
+1) Remote internal server SSH in one command:
+```ssh -A -t user@35.209.46.30 ssh someinternalhost```
+
+2) Create alias for command ```ssh someinternalhost```
 ```
-#! /bin/bash
-git clone -b monolith https://github.com/express42/reddit.git
-$ cd reddit && bundle install
-$ puma -d 
+cat ~/.ssh/config
+	Host someinternalhost
+	ProxyCommand ssh -A user@35.209.46.30 -W %h:%p
 ```
-7) Some template parameters were moved to variables
 
-Summary: we have a "fry" image with manual application deploy
+### VPN config for CI
 
-### Advanced tasks:
-1) Created template `immutable.json` for "baked" image with reddit-app
-2) Added script `create-redditvm.sh` for VM creation based on "baked" image
+bastion_IP = 35.209.46.30
 
-Summary: we have a "baked" image with already deploed application
-
-
-## Homework - IaC with Terraform
-1) Remove project wide SSH keys from GCP
-2) Install [terraform 0.11.11](https://releases.hashicorp.com/terraform/0.11.11/terraform_0.11.11_linux_amd64.zip)
-```
-> terraform -v                                                              
-Terraform v0.11.11
-```
-3) Plan IaC (instance, provisioning, fw rule) in ``main.tf``, ``variables.tf``, ``terraform.tfvars``
-4) Add files for provisioning in ``files/``
-5) Output variables described in ``outputs.tf``
-6) SSH keys for several users
-```
-resource "google_compute_project_metadata" "default" {
-  metadata = {
-    # путь до публичного ключа
-    ssh-keys = "appuser1:${file(var.project_public_key_path)}appuser2:${file(var.project_public_key_path)}"
-  }
-}
-```
-7) Added ``lb.tf`` with code for load balancing
-8) ``main.tf``, ``variables.tf``, ``outputs.tf`` modified for several app instances (``count = n``)
-
+someinternalhost_IP = 10.128.0.5

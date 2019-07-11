@@ -1,28 +1,10 @@
-terraform {
-  # Версия terraform
-  required_version = "~>0.11.7"
-}
-
-provider "google" {
-  version = "2.0.0"
-  project = "${var.project}"
-  region  = "${var.region}"
-}
-
-resource "google_compute_project_metadata" "default" {
-  metadata = {
-    # путь до публичного ключа
-    ssh-keys = "appuser1:${file(var.project_public_key_path)}appuser2:${file(var.project_public_key_path)}"
-  }
-}
-
 resource "google_compute_instance" "app" {
-  name         = "reddit-app-${count.index}"
+  name         = "reddit-app"
   machine_type = "g1-small"
   zone         = "${var.zone}"
   tags         = ["reddit-app"]
 
-  count = "${var.count}"
+  #count = "${var.count}"
 
   # параметры подключения provisioners
   connection {
@@ -33,37 +15,48 @@ resource "google_compute_instance" "app" {
     # путь до приватного ключа
     private_key = "${file(var.private_key_path)}"
   }
-
-  # provisioners
-  provisioner "file" {
-    source      = "files/puma.service"
-    destination = "/tmp/puma.service"
-  }
-
-  provisioner "remote-exec" {
-    script = "files/deploy.sh"
-  }
-
   # определение загрузочного диска
   boot_disk {
     initialize_params {
-      image = "${var.disk_image}"
+      image = "${var.app_disk_image}"
     }
   }
-
   metadata {
     # путь до публичного ключа
     ssh-keys = "appuser:${file(var.public_key_path)}"
   }
-
   # определение сетевого интерфейса
   network_interface {
     # сеть, к которой присоединить данный интерфейс
     network = "default"
 
-    # использовать ephemeral IP для доступа из Интернет
-    access_config {}
+    access_config = {
+      nat_ip = "${google_compute_address.app_ip.address}"
+    }
   }
+  # provisioners
+  provisioner "file" {
+    source      = "${path.module}/files/puma.service"
+    destination = "/tmp/puma.service"
+  }
+  provisioner "file" {
+    source      = "${path.module}/files/deploy.sh"
+    destination = "/tmp/deploy.sh"
+  }
+  provisioner "remote-exec" {
+    inline = [
+      "${var.with_provisioning == true ? local.with_provisioning : local.without_provisioning}",
+    ]
+  }
+}
+
+locals {
+  with_provisioning    = "echo Environment='DATABASE_URL=${var.db_external_ip}:27017' >> '/tmp/puma.service' && sh /tmp/deploy.sh"
+  without_provisioning = "echo Application wouldn't be installed due to withProvisioning variable set to false"
+}
+
+resource "google_compute_address" "app_ip" {
+  name = "reddit-app-ip"
 }
 
 resource "google_compute_firewall" "firewall_puma" {
