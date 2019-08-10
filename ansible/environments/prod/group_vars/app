@@ -1,0 +1,8 @@
+db_host: "{{ groups['db'] | map('extract', hostvars, ['ansible_default_ipv4', 'address']) | first }}"
+nginx_sites:
+    default:
+        - listen 80
+        - server_name "reddit"
+        - location / {
+            proxy_pass http://127.0.0.1:9292;
+            }
