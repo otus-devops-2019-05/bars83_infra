@@ -1,4 +1,6 @@
 # bars83_infra
+[![Build Status](https://travis-ci.com/otus-devops-2019-05/bars83_infra.png)](https://travis-ci.com/otus-devops-2019-05/bars83_infra)
+
 
 ## Homework #9 - Ansible #2
 1) Ansible playbooks, handlers, templates ([jinja2](http://jinja.pocoo.org/docs/2.10/)) with one play in playbook
