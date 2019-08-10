@@ -10,6 +10,7 @@ docker network create hw-test-net
 docker run -d -v $(pwd):/srv -v /var/run/docker.sock:/tmp/docker.sock \
     -e DOCKER_HOST=unix:///tmp/docker.sock --cap-add=NET_ADMIN --privileged \
     --device /dev/net/tun --name hw-test --network hw-test-net $DOCKER_IMAGE
+#docker exec -e USER=appuser -it hw-test bash
 docker exec -e USER=appuser hw-test sh -c "./infra-tests/ansible.sh"
 docker exec -e USER=appuser hw-test sh -c "./infra-tests/packer.sh"
 docker exec -e USER=appuser hw-test sh -c "./infra-tests/terraform.sh"
