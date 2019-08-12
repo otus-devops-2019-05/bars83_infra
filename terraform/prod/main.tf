@@ -32,3 +32,11 @@ module "vpc" {
   source        = "../modules/vpc"
   source_ranges = ["${split(",", var.source_ranges)}"]
 }
+
+resource "template_file" "dynamic_inventory" {
+  template = "${file("dynamic_inventory.json")}"
+  vars {
+    app_ext_ip = "${module.app.app_external_ip}"
+    db_ext_ip = "${module.db.db_external_ip}"
+  }
+}

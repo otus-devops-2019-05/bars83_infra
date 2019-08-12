@@ -1,9 +1,18 @@
 # bars83_infra
+[![Build Status](https://travis-ci.com/otus-devops-2019-05/bars83_infra.png)](https://travis-ci.com/otus-devops-2019-05/bars83_infra)
+## Homework #10 - Ansible #3
+1) Ansible - from playbooks to roles
+2) Split Ansible configuration to prod and stage environments
+3) Use community role for setup nginx
+4) Ansible Valut for secrets storing
+5) Dynamic inventory for environments
+6) TraviCI tests for Ansible, Packer, Terraform
+
 
 ## Homework #9 - Ansible #2
 1) Ansible playbooks, handlers, templates ([jinja2](http://jinja.pocoo.org/docs/2.10/)) with one play in playbook
 2) Ansible playbook with several plays
-3) Several ansible playbooks
+3) Several Ansible playbooks
 4) Packer images provisioning with ansible playbooks
 
 

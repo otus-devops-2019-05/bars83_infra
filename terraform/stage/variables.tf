@@ -33,10 +33,10 @@ variable zone {
   default     = "us-central1-c"
 }
 
-variable count {
-  description = "Count of reddit-app instances"
-  default     = 1
-}
+# variable count {
+#   description = "Count of reddit-app instances"
+#   default     = 1
+# }
 
 variable app_disk_image {
   description = "Disk image for reddit app"
