@@ -1,7 +1,13 @@
 # bars83_infra
 
+## Homework #9 - Ansible #2
+1) Ansible playbooks, handlers, templates ([jinja2](http://jinja.pocoo.org/docs/2.10/)) with one play in playbook
+2) Ansible playbook with several plays
+3) Several ansible playbooks
+4) Packer images provisioning with ansible playbooks
 
-## Homework #7 - Ansible #1
+
+## Homework #8 - Ansible #1
 * ``ansible-playbook clone.yml`` -> ``ansible app -m command -a 'rm -rf ~/reddit'`` -> ``ansible-playbook clone.yml`` - first playbook run shows server is not changed (reddit already exists from previous step in homework), second playbook run shows server is changed (reddit was not exists)
 * (*) task:
   1. create static JSON-inventory (``ansible/inventory.json``)

@@ -34,20 +34,20 @@ resource "google_compute_instance" "app" {
       nat_ip = "${google_compute_address.app_ip.address}"
     }
   }
-  # provisioners
-  provisioner "file" {
-    source      = "${path.module}/files/puma.service"
-    destination = "/tmp/puma.service"
-  }
-  provisioner "file" {
-    source      = "${path.module}/files/deploy.sh"
-    destination = "/tmp/deploy.sh"
-  }
-  provisioner "remote-exec" {
-    inline = [
-      "${var.with_provisioning == true ? local.with_provisioning : local.without_provisioning}",
-    ]
-  }
+  ## provisioners
+  # provisioner "file" {
+  #   source      = "${path.module}/files/puma.service"
+  #   destination = "/tmp/puma.service"
+  # }
+  # provisioner "file" {
+  #   source      = "${path.module}/files/deploy.sh"
+  #   destination = "/tmp/deploy.sh"
+  # }
+  # provisioner "remote-exec" {
+  #   inline = [
+  #     "${var.with_provisioning == true ? local.with_provisioning : local.without_provisioning}",
+  #   ]
+  # }
 }
 
 locals {
