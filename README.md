@@ -1,5 +1,13 @@
 # bars83_infra
 
+
+## Homework #7 - Ansible #1
+* ``ansible-playbook clone.yml`` -> ``ansible app -m command -a 'rm -rf ~/reddit'`` -> ``ansible-playbook clone.yml`` - first playbook run shows server is not changed (reddit already exists from previous step in homework), second playbook run shows server is changed (reddit was not exists)
+* (*) task:
+  1. create static JSON-inventory (``ansible/inventory.json``)
+  2. confirure terraform to generate dinamyc inventory in json format as output variable (``terraform output dynamic_inventory`` now shows actual servers)
+  3. create bash srcipt (``dynamic-inventory.sh``) to get output var from terraform and return it to ansible as inventory
+
 ## Homework #7 - IaC with Terraform #2
 1) Remove load balancer confiruration from previous homework
 2) Import firewall rule from GCP to terraform state
