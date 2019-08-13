@@ -1,7 +1,0 @@
-credentials.json
-google_compute_engine
-*.pub
-*.tar
-*.log
-__pycache__
-*.pyc
