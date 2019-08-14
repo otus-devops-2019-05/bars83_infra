@@ -1,5 +1,13 @@
 # bars83_infra
 [![Build Status](https://travis-ci.com/otus-devops-2019-05/bars83_infra.png)](https://travis-ci.com/otus-devops-2019-05/bars83_infra)
+
+## Homework #11 - Ansible #4
+1) Using Vagrant
+2) Tesing roles with Molecule and Testinfra
+3) Set Packer to use Ansible roles
+4) Move db role to external repo
+5) TravisCI for repo with external role
+
 ## Homework #10 - Ansible #3
 1) Ansible - from playbooks to roles
 2) Split Ansible configuration to prod and stage environments
